@@ -5,7 +5,9 @@ import { createMuiTheme, responsiveFontSizes, MuiThemeProvider} from '@material-
 /**cores */
 import { orange, lightBlue, blue, deepOrange} from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Button from '@material-ui/core/Button'
+
+/**Meus imports */
+import Rotas from './rotas'
 
 export default function App(){
     const temaDark = true
@@ -27,8 +29,7 @@ export default function App(){
     return(
         <MuiThemeProvider theme={theme}>
             <CssBaseline/>
-            <Button variant = "contained" color='primary'>Teste</Button>
-            <Button variant = "contained" color='secondary'>Teste 2</Button>
+            <Rotas/>
         </MuiThemeProvider>
     )
 
