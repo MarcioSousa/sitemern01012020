@@ -9,21 +9,13 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles({
   root: {
     maxWidth: '100%',
   },
   media: {
-    height: 500,
-    width:'100%',
-    zIndex: 1,
-    position: 'absolute'
-  },
-  skeleton:{
-    zIndex:0,
-    position: 'absolute'
+    height: 320,
   }
 });
 
@@ -32,7 +24,6 @@ export default function Cartao() {
 
   return (
     <>
-    <Skeleton variant ='rect' width='100%' height={500} animation='wave' className={classes.skeleton}/>
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia

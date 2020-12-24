@@ -18,7 +18,7 @@ export default function App(){
     let theme = createMuiTheme(
         {
             palette: {
-                palette: tipoPaleta,
+                type: tipoPaleta,
                 primary:{ main: corPrimaria},
                 secondary: { main: corSecundaria}
             }
