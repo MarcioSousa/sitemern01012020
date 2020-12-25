@@ -1,4 +1,4 @@
-// cSpell:Ignore Reservada, Endereço, Senha, Carregando, certo, mensagemErro, setErro, setMensagemErro, erro, logado, inválidos, evitar o carregamento da página, lembrar, usuário, validaLogin, setLembrarUsuario, lembrarUsuario, botaoDesabilitado, setBotaoDesabilitado
+// cSpell:Ignore Reservada, Endereço, Senha, vazio, botao, apenas, executa, usuario, Voltar, Carregando, certo, mensagemErro, setErro, setMensagemErro, erro, logado, inválidos, evitar o carregamento da página, lembrar, usuário, validaLogin, setLembrarUsuario, lembrarUsuario, botaoDesabilitado, setBotaoDesabilitado
 import React , { useState, useEffect } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom'
 
 /**icons */
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import HomeIcon from '@material-ui/icons/Home'
 
 const useStyles = makeStyles(theme =>({
     principal:{
@@ -27,7 +28,8 @@ const useStyles = makeStyles(theme =>({
         marginBottom: theme.spacing(3),
         backgroundColor: theme.palette.secondary.main
     },
-    login:{
+    botao:{
+        marginTop: theme.spacing(3),
         marginBottom: theme.spacing(10)
     }
 }))
@@ -49,6 +51,22 @@ export default function Login() {
             setBotaoDesabilitado(true)
         }
     },[email, senha])
+    
+    useEffect(() => {
+        document.title = 'Área Reservada'
+        if(localStorage.getItem('usuario')){
+            setEmail(localStorage.getItem('usuario'))
+            setLembrarUsuario(true)
+        }// [] quando vazio, no useEffect, executa apenas uma vez
+    },[])
+    
+    useEffect(() => {
+        if(lembrarUsuario){
+            localStorage.setItem('usuario', email)
+        }else{
+            localStorage.removeItem('usuario')
+        }
+    },[lembrarUsuario])
 
     function validaLogin(e){
         e.preventDefault() //evitar o carregamento da página
@@ -116,15 +134,21 @@ export default function Login() {
                             type='submit'
                             fullWidth
                             variant='contained'
-                            className={classes.login}
+                            //className={classes.login}
                             disabled={botaoDesabilitado}
                             color='primary'>
                                 <LockOutlinedIcon /> Login
-                            </Button>
+                        </Button>
+                        <Button 
+                            fullWidth
+                            variant='outlined'
+                            color='secondary'
+                            className={classes.botao}
+                            href='/'><HomeIcon/>Voltar Ao Início
+                        </Button>
                     </form>
                 </div>
             </Paper>
-
         </Container>
     )
 }

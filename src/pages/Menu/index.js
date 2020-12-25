@@ -1,11 +1,11 @@
-// cSpell:Ignore tabpanel, scrollable, labelledby, Cabecalho
+// cSpell:Ignore tabpanel, scrollable, Tarefas, labelledby, Cabecalho
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import HelpIcon from '@material-ui/icons/Help';
@@ -15,6 +15,7 @@ import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Cabecalho from '../../components/Cabecalho';
+import Tarefas from '../Tarefas'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -78,7 +79,7 @@ export default function ScrollableTabsButtonForce() {
           textColor="primary"
           aria-label="scrollable force tabs example"
         >
-          <Tab label="Item One" icon={<PhoneIcon />} {...a11yProps(0)} />
+          <Tab label="Tarefas" icon={<LocalOfferIcon />} {...a11yProps(0)} />
           <Tab label="Item Two" icon={<FavoriteIcon />} {...a11yProps(1)} />
           <Tab label="Item Three" icon={<PersonPinIcon />} {...a11yProps(2)} />
           <Tab label="Item Four" icon={<HelpIcon />} {...a11yProps(3)} />
@@ -88,7 +89,7 @@ export default function ScrollableTabsButtonForce() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Item One
+        <Tarefas />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
