@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme =>({
 }))
 
 export default function Login() {
-    const classes = useStyles()
+    const classes = useStyles()  //hook
     const history = useHistory()
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
@@ -70,7 +70,8 @@ export default function Login() {
 
     function validaLogin(e){
         e.preventDefault() //evitar o carregamento da página
-        if(email === process.env.REACT_APP_USER && senha === process.env.REACT_APP_PASSWORD){
+        if(email === process.env.REACT_APP_USER && 
+            senha === process.env.REACT_APP_PASSWORD){
             setErro(false)
             setMensagemErro('')
             localStorage.setItem('logado', btoa(email))

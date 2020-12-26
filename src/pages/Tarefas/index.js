@@ -1,4 +1,4 @@
-// cSpell:Ignore Tarefas, valorInicial, Formulário, Salvar, Descrição, Pessoal, Faculdade, Trabalho, descricao, mudaAtributo, Tabela, Cadastro, Tarefa, Código
+// cSpell:Ignore Tarefas, valorInicial, Relação, índice, Parâmetro, apagaRegistro, Opções, número, itens, removidos, serão, Apagar, Editar, limparemos, carrega, página, salvaRegistro, Formulário, Salvar, Descrição, Pessoal, Faculdade, Trabalho, descricao, mudaAtributo, Tabela, Cadastro, Tarefa, Código
 import React, { useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -8,8 +8,11 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
+import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper} from '@material-ui/core'
 
 import SaveIcon from '@material-ui/icons/Save'
+import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
 
 export default function Tarefas(){
     const [tarefas, setTarefas] = useState([])
@@ -21,11 +24,27 @@ export default function Tarefas(){
         setTarefa({...tarefa, [name]: value})
     }
 
+    function salvaRegistro(e){
+        e.preventDefault()// Não carrega a página
+        setTarefa({id: tarefa.id, tipo: tarefa.tipo, descricao: tarefa.descricao, dataFim: tarefa.dataFim})
+        setTarefas([...tarefas, tarefa])
+        setTarefa(valorInicial) //limparemos os campos
+    }
+
+    const apagaRegistro = id =>{
+        let index = tarefas.map((tarefa) => tarefa.id).indexOf(id)
+        if(index > -1){
+            //O 1º Parâmetro é o índice do Array e o segundo é o número de itens que serão removidos
+            tarefas.splice(index, 1)
+            setTarefas(tarefas.filter(tarefa => tarefa.id !== id))
+        }
+    }
+
     return(
         <div>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                    <form>
+                    <form onSubmit={salvaRegistro}>
                         <Typography component='h1'
                             align='center'>
                                 Cadastro de Tarefas
@@ -89,14 +108,45 @@ export default function Tarefas(){
                             color='primary'>
                                 <SaveIcon/ >
                                 Salvar
-
-                            </Button>
-
-
+                        </Button>
                     </form>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <p>Tabela</p>
+                    <TableContainer component={Paper}>
+                        <Table aria-label='Relação de Tarefas'>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Código</TableCell>
+                                    <TableCell>Tipo</TableCell>
+                                    <TableCell>Descrição</TableCell>
+                                    <TableCell>DataFinal</TableCell>
+                                    <TableCell>Opções</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {tarefas.map((t) => (
+                                    <TableRow key={t.id}>
+                                        <TableCell>{t.id}</TableCell>
+                                        <TableCell>{t.tipo}</TableCell>
+                                        <TableCell>{t.descricao}</TableCell>
+                                        <TableCell>{t.dataFim}</TableCell>
+                                        <TableCell>
+                                            <Button startIcon={<DeleteIcon/>}
+                                                onClick={() => apagaRegistro(t.id)}
+                                                variant='outlined'
+                                                color='secondary'>Apagar</Button>
+
+                                            <Button startIcon={<EditIcon/>}
+                                                onClick={() => null}
+                                                variant='outlined'
+                                                color='primary'>Editar</Button>
+
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Grid>
             </Grid>
         </div>

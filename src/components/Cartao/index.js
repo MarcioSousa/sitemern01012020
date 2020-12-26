@@ -28,7 +28,7 @@ export default function Cartao() {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="https://source.unsplash.com/featured/landscape"
+          image="https://source.unsplash.com/featured/computer"
           title="Seja bem Vindo!"
         />
         <CardContent>
