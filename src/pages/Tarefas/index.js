@@ -1,5 +1,5 @@
-// cSpell:Ignore Tarefas, valorInicial, Relação, índice, Parâmetro, apagaRegistro, Opções, número, itens, removidos, serão, Apagar, Editar, limparemos, carrega, página, salvaRegistro, Formulário, Salvar, Descrição, Pessoal, Faculdade, Trabalho, descricao, mudaAtributo, Tabela, Cadastro, Tarefa, Código
-import React, { useState } from 'react'
+// cSpell:Ignore Tarefas, valorInicial, salvaDados, apagarRegistro, editando, setEditando, Relação, índice, Parâmetro, apagaRegistro, Opções, número, itens, removidos, serão, Apagar, Editar, limparemos, carrega, página, salvaRegistro, Formulário, Salvar, Descrição, Pessoal, Faculdade, Trabalho, descricao, mudaAtributo, Tabela, Cadastro, Tarefa, Código
+import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
@@ -18,6 +18,7 @@ export default function Tarefas(){
     const [tarefas, setTarefas] = useState([])
     const valorInicial = {id:'', tipo:'', descricao:'', dataFim:''}
     const [tarefa, setTarefa] = useState(valorInicial)
+    const [editando, setEditando] = useState(false)
 
     const mudaAtributo = e => {
         const { name, value } = e.target
@@ -26,9 +27,13 @@ export default function Tarefas(){
 
     function salvaRegistro(e){
         e.preventDefault()// Não carrega a página
+        if(editando){
+            apagaRegistro(tarefa.id)
+        }
         setTarefa({id: tarefa.id, tipo: tarefa.tipo, descricao: tarefa.descricao, dataFim: tarefa.dataFim})
         setTarefas([...tarefas, tarefa])
         setTarefa(valorInicial) //limparemos os campos
+        setEditando(false)
     }
 
     const apagaRegistro = id =>{
@@ -39,6 +44,18 @@ export default function Tarefas(){
             setTarefas(tarefas.filter(tarefa => tarefa.id !== id))
         }
     }
+
+    function salvaDados(){
+        localStorage.setItem('tarefas', JSON.stringify(tarefas))
+    }
+
+    useEffect(() => {
+        setTarefas(JSON.parse(localStorage.getItem('tarefas')))
+    },[])
+
+    useEffect(() => {
+        salvaDados()
+    },[tarefas])
 
     return(
         <div>
@@ -61,6 +78,7 @@ export default function Tarefas(){
                             autoFocus
                             value={tarefa.id}
                             onChange={mudaAtributo}
+                            disabled={editando}
                         />
                         <TextField
                             variant='outlined'
@@ -137,7 +155,10 @@ export default function Tarefas(){
                                                 color='secondary'>Apagar</Button>
 
                                             <Button startIcon={<EditIcon/>}
-                                                onClick={() => null}
+                                                onClick={() => {
+                                                    setEditando(true)
+                                                    setTarefa(t)
+                                                }}
                                                 variant='outlined'
                                                 color='primary'>Editar</Button>
 
